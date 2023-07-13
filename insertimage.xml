@@ -71,4 +71,7 @@
 			</fieldset>
 		</fields>
 	</config>
+	<updateservers>
+		<server type="extension" name="plg_content_insertimage">https://raw.githubusercontent.com/Buchs-Dev/joomla-updates/main/plg_content_insertimage.xml</server>
+	</updateservers>
 </extension>
