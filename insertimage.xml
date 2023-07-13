@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="content" method="upgrade">
+	<name>plg_content_insertimage</name>
+	<author>René Alain Erichsen/Buchs AS</author>
+	<creationDate>2023-07</creationDate>
+	<copyright>(C) 2023 Buchs AS</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>re@buchs.dk</authorEmail>
+	<authorUrl>buchs.dk</authorUrl>
+	<version>1.0.0</version>
+	<description>PLG_INSERTIMAGE_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="insertimage">insertimage.php</filename>
+		<filename>insertimage.xml</filename>
+		<folder>language</folder>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="bootstrap_version"
+					type="list"
+					label="PLG_INSERTIMAGE_FIELD_BOOTSTRAP_VERSION_LABEL"
+					description="PLG_INSERTIMAGE_FIELD_BOOTSTRAP_VERSION_DESC"
+					default="3"
+					>
+					<option value="3">3.x</option>
+					<option value="4">4.x</option>
+					<option value="5">5.x</option>
+				</field>
+				<field
+					name="image_processor"
+					type="list"
+					label="PLG_INSERTIMAGE_FIELD_IMAGE_PROCESSOR_LABEL"
+					description="PLG_INSERTIMAGE_FIELD_IMAGE_PROCESSOR_DESC"
+					default="ir"
+					>
+					<option value="0">JNONE</option>
+					<option value="ir">Intervention Request</option>
+					<option value="slir">SLIR</option>
+				</field>
+				<field
+					name="slir_path"
+					type="text"
+					label="PLG_INSERTIMAGE_FIELD_SLIR_PATH_LABEL"
+					description="PLG_INSERTIMAGE_FIELD_SLIR_PATH_DESC"
+					default="slir"
+					showon="image_processor:ir,slir"
+				/>
+				<field
+					name="image_widths"
+					type="text"
+					label="PLG_INSERTIMAGE_FIELD_IMAGE_WIDTHS_LABEL"
+					description="PLG_INSERTIMAGE_FIELD_IMAGE_WIDTHS_DESC"
+					default="2560, 2048, 1536, 1280, 1024, 768, 640, 480, 360, 320"
+					showon="image_processor:ir,slir"
+				/>
+				<field
+					name="webp"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="PLG_INSERTIMAGE_FIELD_WEBP_LABEL"
+					description="PLG_INSERTIMAGE_FIELD_WEBP_DESC"
+					default="1"
+					filter="integer"
+					showon="image_processor:ir"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
