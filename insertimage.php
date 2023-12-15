@@ -94,6 +94,9 @@ class PlgContentInsertimage extends CMSPlugin
         $classes = $image['class'] ?? 'img-full';
         $figureClasses = $image['figure-class'] ?? null;
 
+        // Style
+        $style = $image['style'] ?? null;
+
         // Crop to aspect ratio
         $ar = ($image['ar'] ?? false) ? ('-c' . $image['ar']) : null;
 
@@ -137,14 +140,14 @@ class PlgContentInsertimage extends CMSPlugin
             }
 
             // Add normal img tag
-            $output[] = "<img title=\"$title\" class=\"$classes\" src=\"$base/{$this->params->get('slir_path', 'slir')}/w1024$ar/$src\" srcset=\"{$this->_buildSrcset($src, $ar)}\" alt=\"$alt\" sizes=\"$sizesAttr\" loading=\"lazy\">";
+            $output[] = "<img title=\"$title\" class=\"$classes\" style=\"$style\" src=\"$base/{$this->params->get('slir_path', 'slir')}/w1024$ar/$src\" srcset=\"{$this->_buildSrcset($src, $ar)}\" alt=\"$alt\" sizes=\"$sizesAttr\" loading=\"lazy\">";
 
             // Close picture tag
             $output[] = '</picture>';
 
         // Generate img tag for image types that can't be processed
         } elseif ($extension == 'gif' || $extension == 'svg' || !$imageProcessor) {
-            $output[] = "<img title=\"$title\" class=\"$classes\" src=\"$base/$src\" alt=\"$alt\" loading=\"lazy\">";
+            $output[] = "<img title=\"$title\" class=\"$classes\"  style=\"$style\" src=\"$base/$src\" alt=\"$alt\" loading=\"lazy\">";
 
         // Unsupported filetype
         } else {
