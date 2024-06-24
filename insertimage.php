@@ -27,7 +27,7 @@ class PlgContentInsertimage extends CMSPlugin
         }
 
         // Expression to search for inserted images
-        $regex = '/{insertimage\s(.*?)}/i';
+        $regex = '/(?:<p>)?{insertimage\s(.*?)}(?:<\/p>)?/i';
 
         if (str_contains($article->text, '{insertimage ')) {
             // Find all instances of plugin and put in $matches for insertimage
@@ -238,6 +238,9 @@ class PlgContentInsertimage extends CMSPlugin
         $atts    = array();
         $pattern = $this->_getShortcodeAttsRegex();
         $text    = preg_replace( "/[\x{00a0}\x{200b}]+/u", ' ', $text );
+        
+        // Remove enclosing <p> tags
+        $text    = preg_replace('/^<p>(.*)<\/p>$/s', '$1', $text);
 
         if ( preg_match_all( $pattern, $text, $match, PREG_SET_ORDER ) ) {
             foreach ( $match as $m ) {
