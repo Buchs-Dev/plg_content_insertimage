@@ -41,7 +41,7 @@ class plgContentInsertimageInstallerScript extends InstallerScript
     function update($parent) 
     {
         // Get the plugin installation path for the site side
-        $path = $parent->getParent()->getPath('extension_site');
+        $path = JPATH_PLUGINS . '/content/insertimage';
 
         // Define the path to the "language" folder within the plugin's directory
         $this->deleteFolders[] = $path . '/language';
