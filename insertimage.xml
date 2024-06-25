@@ -12,8 +12,13 @@
 	<files>
 		<filename plugin="insertimage">insertimage.php</filename>
 		<filename>insertimage.xml</filename>
-		<folder>language</folder>
 	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_content_insertimage.ini</language>
+		<language tag="en-GB">language/en-GB/plg_content_insertimage.sys.ini</language>
+		<language tag="da-DK">language/da-DK/plg_content_insertimage.ini</language>
+		<language tag="da-DK">language/da-DK/plg_content_insertimage.sys.ini</language>
+	</languages>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
