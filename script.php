@@ -40,7 +40,17 @@ class plgContentInsertimageInstallerScript extends InstallerScript
      */
     function update($parent) 
     {
+        // Get the plugin installation path for the site side
+        $path = $parent->getParent()->getPath('extension_site');
 
+        // Define the path to the "language" folder within the plugin's directory
+        $this->deleteFolders[] = $path . '/language';
+
+        // Define the path to the "language" folder within the plugin's directory
+        $this->deleteFiles[] = $path . '/script.php';
+
+        // Call removeFiles to delete the folders listed in deleteFolders
+        $this->removeFiles($parent);
     }
 
     /**
@@ -64,16 +74,6 @@ class plgContentInsertimageInstallerScript extends InstallerScript
      */
     function postflight($type, $parent) 
     {
-        // Get the plugin installation path for the site side
-        $path = $parent->getParent()->getPath('extension_site');
 
-        // Define the path to the "language" folder within the plugin's directory
-        $this->deleteFolders[] = $path . '/language';
-
-        // Define the path to the "language" folder within the plugin's directory
-        $this->deleteFiles[] = $path . '/script.php';
-
-        // Call removeFiles to delete the folders listed in deleteFolders
-        $this->removeFiles($parent);
     }
 }
