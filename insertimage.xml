@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>re@buchs.dk</authorEmail>
 	<authorUrl>buchs.dk</authorUrl>
-	<version>1.0.4</version>
+	<version>1.0.5</version>
 	<description>PLG_INSERTIMAGE_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="insertimage">insertimage.php</filename>
