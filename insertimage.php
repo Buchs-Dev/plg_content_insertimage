@@ -113,7 +113,8 @@ class PlgContentInsertimage extends CMSPlugin
 		$src = HTMLHelper::cleanImageURL($image['src'])->url;
 
 		// Analyze the filename
-		$extension = strtolower(pathinfo($image['src'])['extension']);
+		$path = parse_url($src)['path'];
+		$extension = strtolower(pathinfo($path)['extension']);
 
 		// Wrap in figure element?
 		$figure = ($image['figure'] ?? true) !== 'off';
@@ -161,21 +162,36 @@ class PlgContentInsertimage extends CMSPlugin
 	}
 
 	protected function _buildSrcset($src, $ar, $webp = false) {
+		// Get the base URL
 		$base = Uri::base(true);
+
+		// Get the image widths to use
 		$widths = $this->params->get('image_widths', '2560, 2048, 1536, 1280, 1024, 768, 640, 480, 360, 320');
 		$widths = array_map('intval', explode(',', $widths));
+
+		// Sort the widths
 		rsort($widths);
 
+		// Parse the URL
+		$fragments = parse_url($src);
+
+		// Get the path and query
+		$path = $fragments['path'];
+		$query = $fragments['query'] ?? null;
+		$query = $query ? '?' . $query : null;
+
+		// Build the srcset
 		$srcset = [];
 		foreach ($widths as $w) {
 			if ($w) {
-				$srcset[] = $base . '/' . $this->params->get('slir_path', 'slir') . '/w' . $w . $ar . '/' . $src . ($webp ? '.webp' : '') . ' ' . $w . 'w';
+				$srcset[] = $base . '/' . $this->params->get('slir_path', 'slir') . '/w' . $w . $ar . '/' . $path . ($webp ? '.webp' : null) . $query . ' ' . $w . 'w';
 			}
 		}
 
 		return implode(', ', $srcset);
 	}
 
+	// Build the sizes attribute
 	protected function _buildSizesAttr($image_width) {
 		$bootstrapVersion = $this->params->get('bootstrap_version', 3);
 
