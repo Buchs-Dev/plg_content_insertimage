@@ -13,7 +13,7 @@
 		<filename plugin="insertimage">insertimage.php</filename>
 		<filename>insertimage.xml</filename>
 	</files>
-    <scriptfile>script.php</scriptfile>
+	<scriptfile>script.php</scriptfile>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_content_insertimage.ini</language>
 		<language tag="en-GB">language/en-GB/plg_content_insertimage.sys.ini</language>
@@ -24,61 +24,61 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-					name="bootstrap_version"
-					type="list"
-					label="PLG_INSERTIMAGE_FIELD_BOOTSTRAP_VERSION_LABEL"
-					description="PLG_INSERTIMAGE_FIELD_BOOTSTRAP_VERSION_DESC"
-					default="3"
-					>
+						name="bootstrap_version"
+						type="list"
+						label="PLG_INSERTIMAGE_FIELD_BOOTSTRAP_VERSION_LABEL"
+						description="PLG_INSERTIMAGE_FIELD_BOOTSTRAP_VERSION_DESC"
+						default="3"
+				>
 					<option value="3">3.x</option>
 					<option value="4">4.x</option>
 					<option value="5">5.x</option>
 				</field>
 				<field
-					name="image_processor"
-					type="list"
-					label="PLG_INSERTIMAGE_FIELD_IMAGE_PROCESSOR_LABEL"
-					description="PLG_INSERTIMAGE_FIELD_IMAGE_PROCESSOR_DESC"
-					default="ir"
-					>
+						name="image_processor"
+						type="list"
+						label="PLG_INSERTIMAGE_FIELD_IMAGE_PROCESSOR_LABEL"
+						description="PLG_INSERTIMAGE_FIELD_IMAGE_PROCESSOR_DESC"
+						default="ir"
+				>
 					<option value="0">JNONE</option>
 					<option value="ir">Intervention Request</option>
 					<option value="slir">SLIR</option>
 				</field>
 				<field
-					name="slir_path"
-					type="text"
-					label="PLG_INSERTIMAGE_FIELD_SLIR_PATH_LABEL"
-					description="PLG_INSERTIMAGE_FIELD_SLIR_PATH_DESC"
-					default="slir"
-					showon="image_processor:ir,slir"
+						name="slir_path"
+						type="text"
+						label="PLG_INSERTIMAGE_FIELD_SLIR_PATH_LABEL"
+						description="PLG_INSERTIMAGE_FIELD_SLIR_PATH_DESC"
+						default="slir"
+						showon="image_processor:ir,slir"
 				/>
 				<field
-					name="image_widths"
-					type="text"
-					label="PLG_INSERTIMAGE_FIELD_IMAGE_WIDTHS_LABEL"
-					description="PLG_INSERTIMAGE_FIELD_IMAGE_WIDTHS_DESC"
-					default="2560, 2048, 1536, 1280, 1024, 768, 640, 480, 360, 320"
-					showon="image_processor:ir,slir"
+						name="image_widths"
+						type="text"
+						label="PLG_INSERTIMAGE_FIELD_IMAGE_WIDTHS_LABEL"
+						description="PLG_INSERTIMAGE_FIELD_IMAGE_WIDTHS_DESC"
+						default="2560, 2048, 1536, 1280, 1024, 768, 640, 480, 360, 320"
+						showon="image_processor:ir,slir"
 				/>
 				<field
-					name="webp"
-					type="radio"
-					layout="joomla.form.field.radio.switcher"
-					label="PLG_INSERTIMAGE_FIELD_WEBP_LABEL"
-					description="PLG_INSERTIMAGE_FIELD_WEBP_DESC"
-					default="1"
-					filter="integer"
-					showon="image_processor:ir"
-					>
+						name="webp"
+						type="radio"
+						layout="joomla.form.field.radio.switcher"
+						label="PLG_INSERTIMAGE_FIELD_WEBP_LABEL"
+						description="PLG_INSERTIMAGE_FIELD_WEBP_DESC"
+						default="1"
+						filter="integer"
+						showon="image_processor:ir"
+				>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
 				<field
-					name="userguide"
-					type="note"
-					label="PLG_INSERTIMAGE_USERGUIDE"
-					description="PLG_INSERTIMAGE_USERGUIDE_DESC"
+						name="userguide"
+						type="note"
+						label="PLG_INSERTIMAGE_USERGUIDE"
+						description="PLG_INSERTIMAGE_USERGUIDE_DESC"
 				/>
 			</fieldset>
 		</fields>
