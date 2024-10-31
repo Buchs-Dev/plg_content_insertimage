@@ -54,6 +54,7 @@ class PlgContentInsertimage extends CMSPlugin
     protected function _buildImage($image) {
 
         $base = Uri::base(true);
+        $fluid = false;
 
         $imageProcessor = $this->params->get('image_processor', 'ir');
 
@@ -79,6 +80,18 @@ class PlgContentInsertimage extends CMSPlugin
         $image_width['xl'] = $bsWidth['xl'] / 12 * $image['xl'] - $bsGutter . 'px';
         $image_width['xxl'] = $bsWidth['xxl'] / 12 * $image['xxl'] - $bsGutter . 'px';
 
+        // Filter out the 'xs' key
+        $filtered_image_width = array_filter($image_width, function($key) {
+            return $key !== 'xs';
+        }, ARRAY_FILTER_USE_KEY);
+
+        // Extract numeric values and find the maximum
+        $max_image_width = max(array_map(function($value) {
+            return (int) filter_var($value, FILTER_SANITIZE_NUMBER_INT);
+        }, $filtered_image_width));
+
+        $max_image_width *= 2;
+
         if (($image['container'] ?? false) == 'fluid') {
             $image_width['xs'] = 100 / 12 * $image['xs'] . 'vw';
             $image_width['sm'] = 100 / 12 * $image['sm'] . 'vw';
@@ -86,6 +99,9 @@ class PlgContentInsertimage extends CMSPlugin
             $image_width['lg'] = 100 / 12 * $image['lg'] . 'vw';
             $image_width['xl'] = 100 / 12 * $image['xl'] . 'vw';
             $image_width['xxl'] = 100 / 12 * $image['xxl'] . 'vw';
+
+            $max_image_width = 0;
+            $fluid = true;
         }
 
         setlocale(LC_NUMERIC, $locale);
@@ -137,11 +153,11 @@ class PlgContentInsertimage extends CMSPlugin
 
             // Add a webp version of the image
             if ($imageProcessor == 'ir' && $this->params->get('webp', 1)) {
-                $output[] = "<source type=\"image/webp\" srcset=\"{$this->_buildSrcset($src, $ar, true)}\" sizes=\"$sizesAttr\">";
+                $output[] = "<source type=\"image/webp\" srcset=\"{$this->_buildSrcset($src, $ar, true, $fluid, $max_image_width)}\" sizes=\"$sizesAttr\">";
             }
 
             // Add normal img tag
-            $output[] = "<img title=\"$title\" class=\"$classes\" style=\"$style\" src=\"$base/{$this->params->get('slir_path', 'slir')}/w1024$ar/$src\" srcset=\"{$this->_buildSrcset($src, $ar)}\" alt=\"$alt\" sizes=\"$sizesAttr\" loading=\"lazy\">";
+            $output[] = "<img title=\"$title\" class=\"$classes\" style=\"$style\" src=\"$base/{$this->params->get('slir_path', 'slir')}/w1024$ar/$src\" srcset=\"{$this->_buildSrcset($src, $ar, false, $fluid, $max_image_width)}\" alt=\"$alt\" sizes=\"$sizesAttr\" loading=\"lazy\">";
 
             // Close picture tag
             $output[] = '</picture>';
@@ -161,7 +177,7 @@ class PlgContentInsertimage extends CMSPlugin
         return $output;
     }
 
-    protected function _buildSrcset($src, $ar, $webp = false) {
+    protected function _buildSrcset($src, $ar, $webp = false, $fluid = false, $max_image_width = 0) {
         // Get the base URL
         $base = Uri::base(true);
 
@@ -169,8 +185,8 @@ class PlgContentInsertimage extends CMSPlugin
         $widths = $this->params->get('image_widths', '2560, 2048, 1536, 1280, 1024, 768, 640, 480, 360, 320');
         $widths = array_map('intval', explode(',', $widths));
 
-        // Sort the widths
-        rsort($widths);
+        // Sort the widths in ascending order
+        sort($widths);
 
         // Parse the URL
         $fragments = parse_url($src);
@@ -185,6 +201,9 @@ class PlgContentInsertimage extends CMSPlugin
         foreach ($widths as $w) {
             if ($w) {
                 $srcset[] = $base . '/' . $this->params->get('slir_path', 'slir') . '/w' . $w . $ar . '/' . $path . ($webp ? '.webp' : null) . $query . ' ' . $w . 'w';
+                if (!$fluid && $max_image_width && $w >= $max_image_width) {
+                    break;
+                }
             }
         }
 
