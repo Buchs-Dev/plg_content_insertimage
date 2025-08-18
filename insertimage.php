@@ -58,8 +58,13 @@ class PlgContentInsertimage extends CMSPlugin
 
         $imageProcessor = $this->params->get('image_processor', 'ir');
 
-        $bsWidth = $this->_getBootstrapContainerWidths();
-        $bsGutter = $this->_getBootstrapGutter();
+        if ($this->params->get('bootstrap_version', 3) == 'custom') {
+            $bsWidth = $this->_getCustomContainerMaxWidths();
+            $bsGutter = $this->params->get('gap', 16, 'int');
+        } else {
+            $bsWidth = $this->_getBootstrapContainerWidths();
+            $bsGutter = $this->_getBootstrapGutter();
+        }
 
         // Set default image container widths
         $image['xs'] = $image['xs'] ?? 12;
@@ -238,7 +243,46 @@ class PlgContentInsertimage extends CMSPlugin
                 ', ' . $image_width['xs'];
         }
 
+        if ($bootstrapVersion == 'custom') {
+
+            $breakpoints = array(
+                'sm' => $this->params->get('breakpoint_sm', 640, 'int'),
+                'md' => $this->params->get('breakpoint_md', 768, 'int'),
+                'lg' => $this->params->get('breakpoint_lg', 1024, 'int'),
+                'xl' => $this->params->get('breakpoint_xl', 1280, 'int'),
+                'xxl' => $this->params->get('breakpoint_xxl', 1536, 'int')
+            );
+
+            $num_screen_sizes = $this->params->get('num_screen_sizes', 6, 'int');
+            $sizes = [];
+            if ($num_screen_sizes >= 6) $sizes[] = '(min-width: ' . $breakpoints['xxl'] . 'px) ' . $image_width['xxl'];
+            if ($num_screen_sizes >= 5) $sizes[] = '(min-width: ' . $breakpoints['xl'] . 'px) ' . $image_width['xl'];
+            if ($num_screen_sizes >= 4) $sizes[] = '(min-width: ' . $breakpoints['lg'] . 'px) ' . $image_width['lg'];
+            if ($num_screen_sizes >= 3) $sizes[] = '(min-width: ' . $breakpoints['md'] . 'px) '  . $image_width['md'];
+            if ($num_screen_sizes >= 2) $sizes[] = '(min-width: ' . $breakpoints['sm'] . 'px) '  . $image_width['sm'];
+            $sizes[] = $image_width['xs'];
+
+            $s = implode(', ', $sizes);
+        }
+
         return $s;
+    }
+
+    protected function _getCustomContainerMaxWidths() {
+
+        if ($this->params->get('gap_pads_container', true, 'bool')) {
+            $gap = $this->params->get('gap', 16, 'int');
+        } else {
+            $gap = 0;
+        }
+
+        return [
+            'sm' => $this->params->get('maxwidth_sm', 640, 'int') - $gap * 2,
+            'md' => $this->params->get('maxwidth_md', 768, 'int') - $gap * 2,
+            'lg' => $this->params->get('maxwidth_lg', 1024, 'int') - $gap * 2,
+            'xl' => $this->params->get('maxwidth_xl', 1280, 'int') - $gap * 2,
+            'xxl' => $this->params->get('maxwidth_xxl', 1536, 'int') - $gap * 2
+        ];
     }
 
     protected function _getBootstrapContainerWidths() {
