@@ -135,7 +135,8 @@ class PlgContentInsertimage extends CMSPlugin
 
         // Analyze the filename
         $path = parse_url($src)['path'];
-        $extension = strtolower(pathinfo($path)['extension']);
+        $pathInfo = pathinfo($path);
+        $extension = isset($pathInfo['extension']) ? strtolower($pathInfo['extension']) : '';
 
         // Wrap in figure element?
         $figure = ($image['figure'] ?? true) !== 'off';

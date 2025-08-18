@@ -3,11 +3,11 @@
 	<name>plg_content_insertimage</name>
 	<author>René Alain Erichsen/Buchs AS</author>
 	<creationDate>2023-07</creationDate>
-	<copyright>(C) 2023 Buchs AS</copyright>
+	<copyright>(C) 2023-2025 Buchs AS</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>re@buchs.dk</authorEmail>
 	<authorUrl>buchs.dk</authorUrl>
-	<version>1.2.0</version>
+	<version>1.2.1</version>
 	<description>PLG_INSERTIMAGE_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="insertimage">insertimage.php</filename>
